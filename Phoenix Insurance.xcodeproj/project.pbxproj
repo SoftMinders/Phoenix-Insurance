@@ -11,6 +11,7 @@
 		882680A22D4A39F100DFAA88 /* SideMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882680A12D4A39F100DFAA88 /* SideMenuView.swift */; };
 		882680A42D4A3C8E00DFAA88 /* MenuButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882680A32D4A3C8E00DFAA88 /* MenuButton.swift */; };
 		882680A62D4A3EAA00DFAA88 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882680A52D4A3EAA00DFAA88 /* AuthManager.swift */; };
+		882680A82D4A540700DFAA88 /* NewBusinessFollowup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 882680A72D4A540700DFAA88 /* NewBusinessFollowup.swift */; };
 		887354E72D44239F003815DD /* Phoenix_InsuranceApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887354E62D44239F003815DD /* Phoenix_InsuranceApp.swift */; };
 		887354E92D44239F003815DD /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 887354E82D44239F003815DD /* ContentView.swift */; };
 		887354EB2D4423A2003815DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 887354EA2D4423A2003815DD /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		882680A12D4A39F100DFAA88 /* SideMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideMenuView.swift; sourceTree = "<group>"; };
 		882680A32D4A3C8E00DFAA88 /* MenuButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuButton.swift; sourceTree = "<group>"; };
 		882680A52D4A3EAA00DFAA88 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		882680A72D4A540700DFAA88 /* NewBusinessFollowup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewBusinessFollowup.swift; sourceTree = "<group>"; };
 		887354E32D44239F003815DD /* Phoenix Insurance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Phoenix Insurance.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		887354E62D44239F003815DD /* Phoenix_InsuranceApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phoenix_InsuranceApp.swift; sourceTree = "<group>"; };
 		887354E82D44239F003815DD /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				8873551E2D44DAE2003815DD /* DashboardView.swift */,
 				882680A52D4A3EAA00DFAA88 /* AuthManager.swift */,
 				882680A12D4A39F100DFAA88 /* SideMenuView.swift */,
+				882680A72D4A540700DFAA88 /* NewBusinessFollowup.swift */,
 				882680A32D4A3C8E00DFAA88 /* MenuButton.swift */,
 				8826809F2D45830D00DFAA88 /* AllContacts.swift */,
 				8873551C2D444DF8003815DD /* APIService.swift */,
@@ -304,6 +307,7 @@
 				882680A22D4A39F100DFAA88 /* SideMenuView.swift in Sources */,
 				882680A62D4A3EAA00DFAA88 /* AuthManager.swift in Sources */,
 				8873551D2D444DF8003815DD /* APIService.swift in Sources */,
+				882680A82D4A540700DFAA88 /* NewBusinessFollowup.swift in Sources */,
 				887354E72D44239F003815DD /* Phoenix_InsuranceApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

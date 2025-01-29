@@ -73,6 +73,7 @@ struct APIContact: Codable {
 
 struct AllContacts: View {
     @StateObject private var viewModel = ContactsViewModel()
+    @State private var isMenuOpen = false
     
     var body: some View {
         NavigationView {
@@ -94,7 +95,40 @@ struct AllContacts: View {
                     }
                     .padding()
                 }
-                .navigationBarTitle("All Contacts", displayMode: .inline) // Ensure title is shown in the navigation bar
+                .navigationTitle("All Contacts")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            withAnimation { isMenuOpen.toggle() }
+                        }) {
+                            Image(systemName: isMenuOpen ? "xmark.circle" : "line.horizontal.3.circle")
+                                .font(.title)
+                                .foregroundColor(.white)
+                        }
+                    }
+
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            AuthManager.shared.logout() // ✅ Use Global Logout Function
+                        }) {
+                            Image(systemName: "power.circle")
+                                .font(.title)
+                                .foregroundColor(.white)
+                        }
+                    }
+                }
+                .toolbarBackground(Color(hex: "#3D8DBC"), for: .navigationBar)
+                .toolbarBackground(.visible, for: .navigationBar)
+                .animation(.easeInOut, value: isMenuOpen)
+                .gesture(
+                    DragGesture()
+                    .onEnded { gesture in
+                        if gesture.translation.width < -100 {
+                            isMenuOpen = false
+                        }
+                    }
+                )
                 .onAppear {
                     viewModel.fetchContacts() // Fetch contacts when the page appears
                 }

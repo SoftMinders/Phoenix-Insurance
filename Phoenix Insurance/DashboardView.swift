@@ -3,17 +3,18 @@ import SwiftUI
 struct DashboardView: View {
     @State private var isMenuOpen = false
     @ObservedObject var authManager = AuthManager.shared // Use the Singleton
+    @State private var navigationPath = NavigationPath() // ✅ Use NavigationPath for programmatic navigation
 
     var body: some View {
         if authManager.isUserLoggedIn {
-            NavigationView {
+            NavigationStack(path: $navigationPath) { // ✅ Use NavigationStack instead of NavigationView
                 ZStack {
-                    MainContentView()
+                    MainContentView(navigationPath: $navigationPath)
                         .blur(radius: isMenuOpen ? 5 : 0)
                         .disabled(isMenuOpen)
-
+                    
                     if isMenuOpen {
-                        SideMenuView(isMenuOpen: $isMenuOpen)
+                        SideMenuView(isMenuOpen: $isMenuOpen, navigationPath: $navigationPath)
                             .frame(width: 250)
                             .background(Color.white.shadow(radius: 5))
                             .offset(x: isMenuOpen ? 0 : -250)
@@ -33,7 +34,7 @@ struct DashboardView: View {
                                 .foregroundColor(.white)
                         }
                     }
-
+                    
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             AuthManager.shared.logout() // ✅ Use Global Logout Function
@@ -55,7 +56,14 @@ struct DashboardView: View {
                             }
                         }
                 )
+                .navigationDestination(for: NavigationDestination.self) { destination in
+                    switch destination {
+                    case .AllContacts:
+                        AllContacts()
+                    }
+                }
             }
+            
         } else {
             LoginView()
         }
@@ -65,6 +73,7 @@ struct DashboardView: View {
         @State private var dashboardData: DashboardResponse?
         @State private var isLoading = true
         @State private var errorMessage: String?
+        @Binding var navigationPath: NavigationPath // ✅ Receive navigationPath
         
         func formatCurrency(_ value: String?) -> String {
             guard let value = value, let doubleValue = Double(value) else {
@@ -940,7 +949,7 @@ struct DashboardView: View {
 
             }
             .padding(20)
-            .background(Color("BackgroundColor")) // Replace with actual background color or image
+            .background(Color(hex:"#FFFFFF")) // Replace with actual background color or image
             .onAppear {
                 fetchDashboardData()
             }

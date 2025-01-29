@@ -7,11 +7,15 @@
 
 import SwiftUI
 
+enum NavigationDestination: Hashable {
+    case AllContacts
+}
+
 struct SideMenuView: View {
     @Binding var isMenuOpen: Bool
     @State private var isBooksMenuOpen = false
     @State private var isReportsMenuOpen = false
-    @State private var navigateToContacts = false // New state for navigation
+    @Binding var navigationPath: NavigationPath // ✅ Receive navigationPath
 
     var body: some View {
         ScrollView {
@@ -38,14 +42,26 @@ struct SideMenuView: View {
                         isMenuOpen = false
                     }
                     
-                    NavigationLink(destination: AllContacts()) {
-                        MenuButton(icon: "person.crop.circle.fill.badge.checkmark", title: "Contacts") {
+                    /*NavigationLink(destination: AllContacts()) {
+                        MenuButton(icon: "person.crop.circle.fill.badge.checkmark", title: "Contacts"){
                             isMenuOpen = false
+                        }
+                    }*/
+                    VStack(alignment: .leading) {
+                        Button(action: {
+                            isMenuOpen = false
+                            navigationPath.append(NavigationDestination.AllContacts) // ✅ Navigate programmatically
+                        }) {
+                            MenuButton(icon: "person.circle", title: "Contacts"){
+                                
+                            }
                         }
                     }
                     
-                    MenuButton(icon: "chart.line.uptrend.xyaxis", title: "New Business Follow Up") {
-                        isMenuOpen = false
+                    NavigationLink(destination: NewBusinessFollowup()){
+                        MenuButton(icon: "chart.line.uptrend.xyaxis", title: "New Business Follow Up") {
+                            isMenuOpen = false
+                        }
                     }
                     MenuButton(icon: "arrow.3.trianglepath", title: "Individual Renewal") {
                         isMenuOpen = false
@@ -148,6 +164,4 @@ struct SideMenuView: View {
             .padding(.top, 1)
         }
     }
-    
 }
-

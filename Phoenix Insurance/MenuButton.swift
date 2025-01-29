@@ -10,11 +10,11 @@ import SwiftUI
 struct MenuButton: View {
     let icon: String
     let title: String
-    let action: (() -> Void)? // Make it optional
+    let action: (() -> Void) // Make it optional
 
     var body: some View {
         Button(action: {
-            action?() // Call the action only if it's provided
+            action() // Call the action only if it's provided
         }) {
             HStack {
                 Image(systemName: icon)

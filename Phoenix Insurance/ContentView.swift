@@ -17,10 +17,12 @@ struct ContentView: View {
             if showSplash {
                 SplashScreenView()
             } else {
-                if isUserLoggedIn {
-                    DashboardView() // Redirect to Dashboard
-                } else {
-                    LoginView() // Redirect to Login
+                NavigationView {
+                    if isUserLoggedIn {
+                        DashboardView() // Redirect to Dashboard
+                    } else {
+                        LoginView() // Redirect to Login
+                    }
                 }
             }
         }
