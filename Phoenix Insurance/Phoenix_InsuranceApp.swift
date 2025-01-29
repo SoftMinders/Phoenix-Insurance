@@ -11,7 +11,7 @@ import SwiftUI
 struct Phoenix_InsuranceApp: App {
     var body: some Scene {
         WindowGroup {
-            SplashScreenViewControllerWrapper()  // Show SplashScreenViewController first
+            ContentView()
         }
     }
 }
