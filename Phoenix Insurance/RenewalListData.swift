@@ -1,59 +1,67 @@
 //
-//  NewBusinessFollowup.swift
+//  RenewalListData.swift
 //  Phoenix Insurance
 //
-//  Created by Soft Minders on 29/01/25.
+//  Created by Soft Minders on 30/01/25.
 //
 
 import SwiftUI
 
-struct NewBusinessFollowup: View {
+struct RenewalListData: View {
+    var dateFrom: String
+    var dateTo: String
+    
     @State private var isMenuOpen = false
     @State private var isLoading = true
     @State private var errorMessage: String?
-    @State private var allBusinessFollowups: NewBusinessFollowupsResponse?
+    @State private var renewalList: RenewalListDataResponse?
     @State private var navigationPath = NavigationPath()
     @State private var isPopupPresented = false
-    @State private var selectedBusiness: Businesses? = nil
+    @State private var selectedBusiness: RenewList? = nil
     
     var body: some View {
         NavigationView{
             if isLoading {
                 ProgressView()
             }
-            else if let data = allBusinessFollowups {
+            else if let data = renewalList {
                 VStack {
-                    List(data.business) { business in
+                    List(data.renew_list) { renewlist in
                         let currentDate = Date()
-                        let formattedDate = formatDate(business.MTB_FOLLOW_UP_DATE)
+                        let formattedDate = formatDate(renewlist.P_TO)
                         let backgroundColor = getBackgroundColor(for: formattedDate, currentDate: currentDate)
                         ZStack {
                             backgroundColor
                                 .cornerRadius(10) // Optional: Rounded corners for the background
                                 .padding(.vertical, 5) // Add vertical padding to separate items
                             VStack(alignment: .leading) {
-                                Text("\(business.CONTACT ?? "")")
+                                Text("\(renewlist.CUST_NAME ?? "")")
                                     .font(.headline)
                                     .foregroundColor(.white)
-                                Text("Vehicle: \(business.MTB_VEHI_NO ?? "N/A")")
+                                Divider().foregroundColor(.white)
+                                
+                                Text("Renewal Date: \(renewlist.P_TO ?? "")")
+                                    .font(.subheadline)
+                                    .foregroundColor(.white)
+                                Text("Policy No.: \(renewlist.POL_POLICY_NO)")
                                     .font(.subheadline)
                                     .foregroundColor(.white)
                                 
-                                Text("Followup: \(business.MTB_FOLLOW_UP_DATE ?? "N/A")")
+                                Text("Premium: Rs.\(renewlist.POL_PREMIUM ?? "N/A")")
                                     .font(.subheadline)
                                     .foregroundColor(.white)
                             }
                             .padding()
                             .onTapGesture {
-                                selectedBusiness = business
+                                selectedBusiness = renewlist
                                 isPopupPresented = true
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .sheet(isPresented: $isPopupPresented) {
-                            if let contact = selectedBusiness {
+                            if let renbus = selectedBusiness {
                             // Popup content here
-                                NewBusinessFollowupDetailView(bus_id: contact.id)
+                                SingleRenewalListView(vehicle_id: renbus.RISK ?? "")
                             }
                         }
                     }
@@ -75,11 +83,11 @@ struct NewBusinessFollowup: View {
         
     }
     private func fetchAllBusiness() {
-        APIService.shared.fetchNewBusinessFollowups(ucode: UserDefaults.standard.string(forKey: "ucode") ?? "401") { result in
+        APIService.shared.fetchRenewalPolicyList(ucode: UserDefaults.standard.string(forKey: "ucode") ?? "401", date_from: dateFrom, date_to: dateTo) { result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    self.allBusinessFollowups = data
+                    self.renewalList = data
                     self.isLoading = false
                 }
             case .failure(let error):
@@ -109,8 +117,8 @@ struct NewBusinessFollowup: View {
     }
 }
 
-struct NewBusinessFollowup_Previews: PreviewProvider {
+struct RenewalListData_Previews: PreviewProvider {
     static var previews: some View {
-        NewBusinessFollowup()
+        RenewalListData(dateFrom:"01/01/2024",dateTo:"30/01/2025")
     }
 }

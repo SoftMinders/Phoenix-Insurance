@@ -9,6 +9,10 @@ import SwiftUI
 
 enum NavigationDestination: Hashable {
     case AllContacts
+    case NewBusiness
+    case IndividualRen
+    case RenewalFollowups
+    case RenewalList
 }
 
 struct SideMenuView: View {
@@ -42,35 +46,36 @@ struct SideMenuView: View {
                         isMenuOpen = false
                     }
                     
-                    /*NavigationLink(destination: AllContacts()) {
+                    NavigationLink(destination: AllContactsView()) {
                         MenuButton(icon: "person.crop.circle.fill.badge.checkmark", title: "Contacts"){
                             isMenuOpen = false
-                        }
-                    }*/
-                    VStack(alignment: .leading) {
-                        Button(action: {
-                            isMenuOpen = false
-                            navigationPath.append(NavigationDestination.AllContacts) // ✅ Navigate programmatically
-                        }) {
-                            MenuButton(icon: "person.circle", title: "Contacts"){
-                                
-                            }
+                            navigationPath.append(NavigationDestination.AllContacts)
                         }
                     }
                     
                     NavigationLink(destination: NewBusinessFollowup()){
                         MenuButton(icon: "chart.line.uptrend.xyaxis", title: "New Business Follow Up") {
                             isMenuOpen = false
+                            navigationPath.append(NavigationDestination.NewBusiness)
                         }
                     }
-                    MenuButton(icon: "arrow.3.trianglepath", title: "Individual Renewal") {
-                        isMenuOpen = false
+                    NavigationLink(destination: IndividualRenewal()){
+                        MenuButton(icon: "arrow.3.trianglepath", title: "Individual Renewal") {
+                            isMenuOpen = false
+                            navigationPath.append(NavigationDestination.IndividualRen)
+                        }
                     }
-                    MenuButton(icon: "list.bullet.clipboard", title: "Renewal List") {
-                        isMenuOpen = false
+                    NavigationLink(destination: IndividualRenewal()){
+                        MenuButton(icon: "list.bullet.clipboard", title: "Renewal List") {
+                            isMenuOpen = false
+                            navigationPath.append(NavigationDestination.RenewalList)
+                        }
                     }
-                    MenuButton(icon: "arrow.up.and.person.rectangle.portrait", title: "Renewal Business Follow Up") {
-                        isMenuOpen = false
+                    NavigationLink(destination: RenewalBusinessFollowup()){
+                        MenuButton(icon: "arrow.up.and.person.rectangle.portrait", title: "Renewal Business Follow Up") {
+                            isMenuOpen = false
+                            navigationPath.append(NavigationDestination.RenewalFollowups)
+                        }
                     }
                     MenuButton(icon: "chart.pie.fill", title: "Finalized Business") {
                         isMenuOpen = false
@@ -165,3 +170,4 @@ struct SideMenuView: View {
         }
     }
 }
+

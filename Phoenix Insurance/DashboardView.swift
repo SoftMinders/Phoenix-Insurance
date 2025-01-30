@@ -17,7 +17,7 @@ struct DashboardView: View {
                         SideMenuView(isMenuOpen: $isMenuOpen, navigationPath: $navigationPath)
                             .frame(width: 250)
                             .background(Color.white.shadow(radius: 5))
-                            .offset(x: isMenuOpen ? 0 : -250)
+                            .offset(x: isMenuOpen ? -50 : -250)
                             .transition(.move(edge: .leading))
                             .zIndex(1)
                     }
@@ -48,6 +48,7 @@ struct DashboardView: View {
                 .toolbarBackground(Color(hex: "#3D8DBC"), for: .navigationBar)
                 .toolbarBackground(.visible, for: .navigationBar)
                 .animation(.easeInOut, value: isMenuOpen)
+                .toolbarColorScheme(.light, for: .navigationBar)
                 .gesture(
                     DragGesture()
                         .onEnded { gesture in
@@ -58,8 +59,16 @@ struct DashboardView: View {
                 )
                 .navigationDestination(for: NavigationDestination.self) { destination in
                     switch destination {
-                    case .AllContacts:
-                        AllContacts()
+                        case .AllContacts:
+                            AllContactsView()
+                        case .NewBusiness:
+                            NewBusinessFollowup()
+                        case .IndividualRen:
+                            IndividualRenewal()
+                        case .RenewalFollowups:
+                            RenewalBusinessFollowup()
+                        case .RenewalList:
+                            RenewalListView()
                     }
                 }
             }
@@ -181,7 +190,7 @@ struct DashboardView: View {
                                          .foregroundColor(.black)
                                  }
                             }
-                            ProgressView(value: Double(data.target.per_mot), total: 100)
+                            ProgressView(value: Double(data.target.per_mot), total: 200)
                                 .progressViewStyle(LinearProgressViewStyle(tint: .blue))
                                 .frame(height: 8)
                              HStack{
@@ -198,7 +207,7 @@ struct DashboardView: View {
                                  }
                             }
                             
-                            ProgressView(value: Double(data.target.per_non), total: 100)
+                            ProgressView(value: Double(data.target.per_non), total: 200)
                                 .progressViewStyle(LinearProgressViewStyle(tint: .green))
                                 .frame(height: 8)
                             
@@ -216,7 +225,7 @@ struct DashboardView: View {
                                 }
                            }
                             
-                            ProgressView(value: Double(data.target.per_total), total: 100)
+                            ProgressView(value: Double(data.target.per_total), total: 200)
                                 .progressViewStyle(LinearProgressViewStyle(tint: .orange))
                                 .frame(height: 8)
                             
@@ -955,7 +964,7 @@ struct DashboardView: View {
             }
         }
         private func fetchDashboardData() {
-            APIService.shared.fetchDashboardData(brn: UserDefaults.standard.string(forKey: "brn") ?? "", ucode: UserDefaults.standard.string(forKey: "ucode") ?? "") { result in
+            APIService.shared.fetchDashboardData(brn: UserDefaults.standard.string(forKey: "brn") ?? "MK00", ucode: UserDefaults.standard.string(forKey: "ucode") ?? "401") { result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async {

@@ -1,27 +1,27 @@
 //
-//  NewBusinessFollowup.swift
+//  RenewalBusinessFollowup.swift
 //  Phoenix Insurance
 //
-//  Created by Soft Minders on 29/01/25.
+//  Created by Soft Minders on 30/01/25.
 //
 
 import SwiftUI
 
-struct NewBusinessFollowup: View {
+struct RenewalBusinessFollowup: View {
     @State private var isMenuOpen = false
     @State private var isLoading = true
     @State private var errorMessage: String?
-    @State private var allBusinessFollowups: NewBusinessFollowupsResponse?
+    @State private var renewalBusinessFollowups: RenewalFollowupsResponse?
     @State private var navigationPath = NavigationPath()
     @State private var isPopupPresented = false
-    @State private var selectedBusiness: Businesses? = nil
+    @State private var selectedBusiness: RenewalFollowupBusinesses? = nil
     
     var body: some View {
         NavigationView{
             if isLoading {
                 ProgressView()
             }
-            else if let data = allBusinessFollowups {
+            else if let data = renewalBusinessFollowups {
                 VStack {
                     List(data.business) { business in
                         let currentDate = Date()
@@ -51,9 +51,9 @@ struct NewBusinessFollowup: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
                         .sheet(isPresented: $isPopupPresented) {
-                            if let contact = selectedBusiness {
+                            if let sbusiness = selectedBusiness {
                             // Popup content here
-                                NewBusinessFollowupDetailView(bus_id: contact.id)
+                                SingleRenewalListView(vehicle_id: sbusiness.MTB_VEHI_NO ?? "")
                             }
                         }
                     }
@@ -66,7 +66,7 @@ struct NewBusinessFollowup: View {
         .onAppear {
             fetchAllBusiness()
         }
-        .navigationTitle("New Business Followup")
+        .navigationTitle("Renewal Business Followup")
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(Color(hex: "#3D8DBC"), for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
@@ -75,11 +75,11 @@ struct NewBusinessFollowup: View {
         
     }
     private func fetchAllBusiness() {
-        APIService.shared.fetchNewBusinessFollowups(ucode: UserDefaults.standard.string(forKey: "ucode") ?? "401") { result in
+        APIService.shared.fetchRenewalPolicyFollowups(ucode: UserDefaults.standard.string(forKey: "ucode") ?? "401") { result in
             switch result {
             case .success(let data):
                 DispatchQueue.main.async {
-                    self.allBusinessFollowups = data
+                    self.renewalBusinessFollowups = data
                     self.isLoading = false
                 }
             case .failure(let error):
@@ -109,8 +109,8 @@ struct NewBusinessFollowup: View {
     }
 }
 
-struct NewBusinessFollowup_Previews: PreviewProvider {
+struct RenewalBusinessFollowup_Previews: PreviewProvider {
     static var previews: some View {
-        NewBusinessFollowup()
+        RenewalBusinessFollowup()
     }
 }
