@@ -14,6 +14,7 @@ struct RenewalListView: View {
     @State private var selectedDateTo: String?
     @State private var showDatePickerForFrom = false
     @State private var showDatePickerForTo = false
+    @State private var navigateToDetails = false
 
     var body: some View {
         NavigationView{
@@ -64,10 +65,12 @@ struct RenewalListView: View {
                             }
                         }
                     }
+                    NavigationLink(destination: RenewalListData(dateFrom: dateFormatter.string(from: dateFrom), dateTo: dateFormatter.string(from: dateTo)), isActive: $navigateToDetails) {
+                        EmptyView()
+                    }
                     
                     Button(action: {
-                        selectedDateFrom = dateFormatter.string(from: dateFrom)
-                        selectedDateTo = dateFormatter.string(from: dateTo)
+                        navigateToDetails = true
                     }) {
                         Text("Search")
                             .font(.system(size: 17, weight: .bold))
@@ -86,9 +89,6 @@ struct RenewalListView: View {
             }
             .padding(20)
             .background(Color(hex: "#bfdfe7"))
-            .navigationDestination(for: String.self) { vehicle in
-                RenewalListData(dateFrom: selectedDateFrom ?? "", dateTo: selectedDateTo ?? "")
-            }
         }
         .navigationTitle("Renewal List")
         .navigationBarTitleDisplayMode(.inline)

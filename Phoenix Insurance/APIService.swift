@@ -169,10 +169,86 @@ class APIService {
         // Call performRequest with the updated body
         performRequest(endpoint: "/getRenewalList", method: "POST", requestBody: requestBody, responseType: RenewalListDataResponse.self, completion: completion)
     }
+    //Fetch All Finalized List
+    func fetchFinalizedPolicyList(ucode: String, completion: @escaping (Result<FinalizedBusinessResponse, Error>) -> Void) {
+        let body = "ucode=\(ucode)"
+        print("Payload: \(body)")
+        guard let requestBody = body.data(using: .utf8) else {
+            completion(.failure(APIError.encodingFailed))
+            return
+        }
+        // Call performRequest with the updated body
+        performRequest(endpoint: "/getFinalizedList", method: "POST", requestBody: requestBody, responseType: FinalizedBusinessResponse.self, completion: completion)
+    }
+    //Fetch Single Finalized List
+    func fetchSingleFinalizedPolicyList(ucode: String, quote_id: String, completion: @escaping (Result<SingleFinalizedBusinessResponse, Error>) -> Void) {
+        let body = "ucode=\(ucode)&quote_id=\(quote_id)"
+        print("Payload: \(body)")
+        guard let requestBody = body.data(using: .utf8) else {
+            completion(.failure(APIError.encodingFailed))
+            return
+        }
+        // Call performRequest with the updated body
+        performRequest(endpoint: "/getSingleFinalizedList", method: "POST", requestBody: requestBody, responseType: SingleFinalizedBusinessResponse.self, completion: completion)
+    }
 
 }
 
 // MARK: - Models
+//=======================================================Single Finalized Business List Start=============================================================
+struct SingleFinalizedBusinessResponse: Codable {
+    var bus_finalised: SingleFinalBusiness
+    var success: String
+}
+struct SingleFinalBusiness: Codable {
+    var MTQ_QUO_SEQ: String
+    var MMC_ID: String
+    var MMC_TITLE: String
+    var MMC_FIRSTNAME: String
+    var MMC_SURNAME: String
+    var MTB_VEHI_NO: String
+    var MTB_INSURED_NAME: String
+    var MTB_CLASS: String
+    var MTB_PRODUCT: String
+    var MTQ_PERIOD_FORM: String
+    var MTQ_PERIOD_TO: String
+    var MTQ_TOT_PRM: String
+    var PRD_DESCRIPTION: String
+    var CLA_DESCRIPTION: String
+    var MTB_BUS_STATUS: String
+    var MMC_MOBILENO: String
+}
+//=======================================================Single Finalized Business List End=============================================================
+//=======================================================Finalized Business List Start=============================================================
+struct FinalizedBusinessResponse: Codable {
+    var bus_finalised: [BusinessFinalized]
+    var success: String
+}
+struct BusinessFinalized: Codable, Identifiable  {
+    var id: String { MTQ_QUO_SEQ }
+    
+    var MTQ_QUO_SEQ: String
+    var MMC_ID: String?
+    var MMC_TITLE: String?
+    var MMC_FIRSTNAME: String?
+    var MMC_SURNAME: String?
+    var MTB_VEHI_NO: String?
+    var MTB_INSURED_NAME: String?
+    var MTB_CLASS: String?
+    var MTB_PRODUCT: String?
+    var MTQ_PERIOD_FORM: String?
+    var MTQ_PERIOD_TO: String?
+    var MTQ_TOT_PRM: String?
+    var PRD_DESCRIPTION: String?
+    var CLA_DESCRIPTION: String?
+    var MTB_BUS_STATUS: String?
+    var MMC_MOBILENO: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case MTQ_QUO_SEQ, MMC_ID,MMC_TITLE,MMC_FIRSTNAME,MMC_SURNAME,MTB_VEHI_NO,MTB_INSURED_NAME,MTB_CLASS,MTB_PRODUCT,MTQ_PERIOD_FORM,MTQ_PERIOD_TO,MTQ_TOT_PRM,PRD_DESCRIPTION,CLA_DESCRIPTION,MTB_BUS_STATUS,MMC_MOBILENO
+    }
+}
+//=======================================================Finalized Business List End=============================================================
 //=======================================================Renewal List Data Start=============================================================
 struct RenewalListDataResponse: Codable {
     var renew_list: [RenewList]

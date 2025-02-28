@@ -53,7 +53,7 @@ struct RenewalBusinessFollowup: View {
                         .sheet(isPresented: $isPopupPresented) {
                             if let sbusiness = selectedBusiness {
                             // Popup content here
-                                SingleRenewalListView(vehicle_id: sbusiness.MTB_VEHI_NO ?? "")
+                                NewBusinessFollowupDetailView(bus_id: sbusiness.MTB_SEQ)
                             }
                         }
                     }

@@ -13,6 +13,7 @@ enum NavigationDestination: Hashable {
     case IndividualRen
     case RenewalFollowups
     case RenewalList
+    case Finalbusiness
 }
 
 struct SideMenuView: View {
@@ -77,8 +78,11 @@ struct SideMenuView: View {
                             navigationPath.append(NavigationDestination.RenewalFollowups)
                         }
                     }
-                    MenuButton(icon: "chart.pie.fill", title: "Finalized Business") {
-                        isMenuOpen = false
+                    NavigationLink(destination: FinalizedBusinessList()){
+                        MenuButton(icon: "chart.pie.fill", title: "Finalized Business") {
+                            isMenuOpen = false
+                            navigationPath.append(NavigationDestination.Finalbusiness)
+                        }
                     }
                     MenuButton(icon: "square.and.arrow.up.on.square", title: "View Underwriting Docs") {
                         isMenuOpen = false

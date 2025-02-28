@@ -69,6 +69,8 @@ struct DashboardView: View {
                             RenewalBusinessFollowup()
                         case .RenewalList:
                             RenewalListView()
+                        case .Finalbusiness:
+                            FinalizedBusinessList()
                     }
                 }
             }
